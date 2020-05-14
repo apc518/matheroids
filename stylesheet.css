@@ -1,0 +1,203 @@
+body{
+	background-color: #ffffff;
+	font-family:sans-serif;
+	letter-spacing: 0.5px;
+}
+div {
+	color:#000000;
+}
+h1{
+	color:#000000;
+	font-family:sans-serif;
+}
+.asteroid {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+    z-index: 1;
+    background-image: url("assets/asteroid_square_grey_v1.png");
+    background-size: cover;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    animation-name: asteroidAnimation;
+    animation-duration: 10s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+@keyframes asteroidAnimation {
+    0% {bottom: 10px;}
+    100% {bottom: -590px;}
+}
+
+
+.flex-container{
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.welcomeBody{
+	background-image: url("assets/welcome_background_1.jpg"); /* source: Kai Pilger, pexels.com Artists website: kaipilger.myportfolio.com */
+	background-size: contain;
+	color: white;
+	font-size: 48px;
+	line-height: 50px;
+}
+
+.loginBody{
+	background-image: url("assets/welcome_background_1.jpg");
+	background-size: cover;
+}
+
+/*Welcome page buttons*/
+
+.studentlogin {
+	display: block;
+	height: 300px;
+	width: 600px;
+	background-color: #512DA8;
+	border: 2px solid #512DA8;
+	color: white;
+	padding: 15px 32px;
+	font-size: 32px;
+	text-align: center;
+	border-radius: 5px;
+	transition-duration: 0.3s;
+}
+.studentlogin:hover {
+	background-color: white;
+	border: 2px solid #512DA8;
+	color: black;
+}
+.teacherlogin {
+	display: block;
+	border: none;
+	background-color: #7E57C2;
+	border: 2px solid #7E57C2;
+	color: white;
+	padding: 15px 32px;
+	font-size: 20px;
+	text-align: center;
+	border-radius: 5px;
+	transition-duration: 0.4s;
+}
+.teacherlogin:hover {
+	background-color: white;
+	border: 2px solid #7E57C2;
+	color: black;
+}
+.createteacher {
+	display: block;
+	border: none;
+	background-color: #7E57C2;
+	border: 2px solid #7E57C2;
+	color: white;
+	padding: 15px 32px;
+	font-size: 20px;
+	text-align: center;
+	border-radius: 5px;
+	transition-duration: 0.4s;
+}
+.createteacher:hover {
+	background-color: white;
+	border: 2px solid #7E57C2;
+	color: black;
+}
+
+/*Begining of Menus Style*/
+#mainMenu{
+	color:#22D2A0;
+	display:block;
+	padding: 15px;	
+	position:absolute;
+	top:120px;
+	border-radius: 5px;
+}
+#accountSettings{
+	color:#FF5555;
+	padding: 15px;
+	display:block;
+	position:absolute;
+	top:120px;
+	visibility: hidden;
+	border-radius: 5px;
+}
+#teacherDashboard{
+	color:#FFD913;
+	padding: 15px;
+	display:block;
+	position: absolute;
+	top:120px;
+	visibility: hidden;
+	border-radius: 5px;
+}
+#leaderboard{
+	color:#c238d1;
+	padding: 15px;
+	display:block;
+	position:absolute;
+	top:120px;
+	visibility: hidden;
+	border-radius: 5px;
+
+}
+#gradebook{
+	color:#3fb7d9;
+	padding: 15px;
+	display:block;
+	position:absolute;
+	top:120px;
+	visibility: hidden;
+	border-radius: 5px;
+
+}
+#gradebookTable{
+	width:100%;
+
+}
+table#gradebookTable tr:nth-child(even) {
+ background-color: #f0f0f0;
+}
+
+/*Begining of Leaderboard Style*/
+#leaderboardList{
+	list-style-type: none;
+}
+#leaderboardLevelList{
+	list-style-type: none;
+
+}
+#leaderboardSpot{
+	color:#000000;
+}
+#userLeaderboardSpot{
+	color:#ff0027;
+}
+
+/*Begining of Navigation Bar Style*/
+#navBar{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333333;
+	border-radius: 10px;
+
+}
+#navBarItem a{
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+#navBarItem{
+	float: left;
+}
+#navBarItem a:hover{
+  background-color: #212121;
+}
+.active{
+	background-color: #111111;
+}
