@@ -49,7 +49,7 @@
 
     <script type="text/javascript">
     	// gamemode 0 for digit identification, 1 for addition, 2 for subtraction, 3 for addition and subtraction
-    	var gamemode = 3;
+    	var gamemode = 1;
 
     	//
     	// The following ten variables control the game difficulty, by controlling the difficulty
@@ -57,18 +57,18 @@
     	//
 
     	// difficulty of individual matheroids
-        var bossAnswerMin = 20; // mininum answer to boss arithmetic problems, inclusive
-        var bossAnswerMax = 39; // maximum answer to boss arithmetic problems, inclusive
+        var bossAnswerMin = 16; // mininum answer to boss arithmetic problems, inclusive
+        var bossAnswerMax = 49; // maximum answer to boss arithmetic problems, inclusive
         var normalAnswerMin = 0; // minimum answer to normal arithmetic problems, inclusive
-        var normalAnswerMax = 19; // maximum answer to normal arithmetic problems, inclusive
+        var normalAnswerMax = 20; // maximum answer to normal arithmetic problems, inclusive
         var bossDigitMin = 1000; // minimum answer to boss digit problems, inclusive
         var bossDigitMax = 9999; // maximum answer to boss digit problems, inclusive
         var normalDigitMin = 100; // minimum answer to normal digit problems, inclusive
         var normalDigitMax = 999; // maximum answer to normal digit problems, inclusive
 
         // spawn rate
-        var accelerationCap = 15; // max value of random acceleration applied with each problem solved
-        var initSpawnMax = 400; // starting spawn interval. Higher = slower start.
+        var accelerationCap = 10; // max value of random acceleration applied with each problem solved
+        var initSpawnMax = 500; // starting spawn interval. Higher = slower start.
 
         //
         //
@@ -780,7 +780,7 @@
                         updateScore();
 
                         // apply a random, limited acceleration to the spawn rate
-                        if (spawnIntervalMax >= 80){
+                        if (spawnIntervalMax >= 15){
                             spawnIntervalMax = spawnIntervalMax - getRandomNumber(0,accelerationCap);
                         }
 
