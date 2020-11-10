@@ -5,6 +5,6 @@ Just download and unzip the assets folder, game.php file, and stylesheet, and op
 
 To change the gamemode, you can go into game.php and change the gamemode value at the top of the <script>. It's on line 52. There are a bunch of variables just below that which you can use to change the difficulty as well.
   
-I may at some point add a UI on the page to set those variables but for now I have other finals I need to finish.
+I may at some point add a UI on the page to set those variables but for now I don't find that too important.
 
 Enjoy!
