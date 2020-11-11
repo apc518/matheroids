@@ -201,3 +201,29 @@ table#gradebookTable tr:nth-child(even) {
 .active{
 	background-color: #111111;
 }
+
+#stage{
+    width: 400px;
+    height: 600px;
+    position: relative;
+    border: 1px solid #a9a9a9;
+    margin: auto;
+    background-image: url("assets/earth_v1.jpg");
+}
+canvas {
+    position: absolute;
+    padding: 0;
+    margin: auto;
+    display: block;
+}
+#top-layer { z-index: 5; }
+#mid-layer { z-index: 4; }
+body{
+    background-color: #44444B;
+    margin: 0px;
+}
+form {
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}
