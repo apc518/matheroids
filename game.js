@@ -57,14 +57,6 @@ var loseSound = new Audio("assets/youLose_v1.mp3");
 
 var music = new Audio("assets/music_full_v1.mp3");
 
-music.addEventListener("canplaythrough", function(){
-    gameIsLoaded = true;
-    music.volume = 0.4;
-    music.loop = true;
-    clearLoadingScreen();
-    drawPlayButton();
-});
-
 var askingToPlayGameForTheFirstTime = false;
 
 var bossExplodeSounds = [];
@@ -73,6 +65,15 @@ var laserSounds = [];
 var damageSounds = [];
 
 var polyphony = 8;
+
+music.addEventListener("canplaythrough", function(){
+    gameIsLoaded = true;
+    music.volume = 0.4;
+    music.loop = true;
+    askingToPlayGameForTheFirstTime = true;
+    clearTopCtx();
+    drawSplashScreen();
+});
 
 // multiple audio objects to support polyphony
 for(var i = 0; i < polyphony; i++){
@@ -115,16 +116,6 @@ var laserTargetY = 0;
 var laserReflects = false;
 // default red laser for digit ID
 var laserColor = "#FF0000";
-if(gamemode == 1){
-    // yellow laser for addition
-    laserColor = "#FFFF00"
-}else if(gamemode == 2){
-    // green laser for subtraction
-    laserColor = "#00FF00";
-}else if(gamemode == 3){
-    // fuschia laser for addition+subtraction
-    laserColor = "#FF00FF";
-}
 
 var damageFrames = 25;
 var damageCountdown = -1;
@@ -140,51 +131,72 @@ var strikes = 5;
 // this is used to ensure the focus is properly put on the answerForm when resetting by clicking Play Again in the canvas (otherwise the canvas gets the focus because you clicked on it)
 var focusCountdown = 1;
 
+const splashButtonRectangles = {"add":[50, 100, 300, 100], "sub":[50, 250, 300, 100], "addsub":[50, 400, 300, 100]};
+const sbrToDifficulty = {"add":1, "sub":2, "addsub":3};
+
 // gamemodes are as follows: 0: digit identification. 1: additon. 2: subtraction. 3: addition and subtraction
 
-var mouse = { x: undefined, y: undefined}
+var mouse = { x: undefined, y: undefined};
 
 window.addEventListener('mousemove', 
     function(event){
         // convert client coordinates to canvas coordinates
         // this depends on the canvas being centered
-        mouse.x = event.pageX - (window.innerWidth / 2) + 200 + 8;
-        mouse.y = event.pageY - 8;
+        x = event.pageX - (window.innerWidth / 2) + 200 + 8;
+        y = event.pageY - 8;
 
-        if(askingToPlayGameForTheFirstTime && mouse.x > 100 && mouse.x < 300 && mouse.y > 250 && mouse.y < 350){
-            highlightPlayButton();
-        }
-        else if(askingToPlayGameForTheFirstTime){
-            unhighlightPlayButton();
+        mouse.x = x;
+        mouse.y = y;
+
+        sbr = splashButtonRectangles;
+
+        if(askingToPlayGameForTheFirstTime){
+            clearMidCtx();
+            for(const [item, _] of Object.entries(sbr)){
+                if(x > sbr[item][0] && x < sbr[item][0] + sbr[item][2] && y > sbr[item][1] && y < sbr[item][1]+sbr[item][3]){
+                    highlightButton(item);
+                    break;
+                }
+            }
         }
 });
 
 window.addEventListener('mousedown',
     function(event){
+        x = event.pageX - (window.innerWidth / 2) + 200 + 8;
+        y = event.pageY - 8;
         // detect pressing play
-        if(askingToPlayGameForTheFirstTime && mouse.x > 100 && mouse.x < 300 && mouse.y > 250 && mouse.y < 350){
-            clickSound.play();
-            music.play();
-            clearPlayButton();
-            askingToPlayGameForTheFirstTime = false;
-            startGame();
+        if(askingToPlayGameForTheFirstTime){
+            sbr = splashButtonRectangles;
+            for(const [item, _] of Object.entries(sbr)){
+                if(x > sbr[item][0] && x < sbr[item][0]+sbr[item][2] && y > sbr[item][1] && y < sbr[item][1]+sbr[item][3]){
+                    gamemode = sbrToDifficulty[item];
+                    setLaserColor();
+                    clickSound.play();
+                    music.play();
+                    clearTopCtx();
+                    askingToPlayGameForTheFirstTime = false;
+                    startGame();
+                    break;
+                }
+            }
         }
 
         // detect pressing play again
-        if(!askingToPlayGameForTheFirstTime && !playing && mouse.x > 80 && mouse.x < 320 && mouse.y > 350 && mouse.y < 400){
+        if(!askingToPlayGameForTheFirstTime && !playing && x > 80 && x < 320 && y > 350 && y < 400){
             clickSound.play();
             resetGame();
         }
 
         // detect pressing music toggle
-        if(gameIsLoaded && mouse.x > topCanvas.width - 110 && mouse.x < topCanvas.width - 55 && mouse.y < 60){
+        if(gameIsLoaded && x > topCanvas.width - 110 && x < topCanvas.width - 55 && y < 60){
             toggleMusic();
             updateSoundControls();
             focusCountdown = 1;
         }
 
         // detect pressing sfx toggle
-        if(gameIsLoaded && mouse.x > topCanvas.width - 55 && mouse.x < topCanvas.width && mouse.y < 60){
+        if(gameIsLoaded && x > topCanvas.width - 55 && x < topCanvas.width && y < 60){
             toggleSfx();
             updateSoundControls();
             focusCountdown = 1;
@@ -265,39 +277,75 @@ function drawLoadingScreen(){
     topCtx.fillText("loading...",200,280);
 }
 
-function clearLoadingScreen(){
+function clearTopCtx(){
     topCtx.clearRect(0,0,topCanvas.width,topCanvas.height);
 }
 
-function drawPlayButton(){
-    askingToPlayGameForTheFirstTime = true;
-
+function drawSplashScreen() {
+    sbr = splashButtonRectangles;
+    
+    // Addition only gamemode
+    // text
     topCtx.fillStyle = "#FF0066";
     topCtx.font = "bold 48px Courier New";
     topCtx.textAlign = 'center';
     topCtx.textBaseline = 'middle';
-    topCtx.fillText("Play",200,300);
+    topCtx.fillText("Add",200,150);
+    // bounding box
+    topCtx.strokeStyle = "#FF0066";
+    topCtx.lineWidth = 5;
+    topCtx.rect(sbr['add'][0], sbr['add'][1], sbr['add'][2], sbr['add'][3]);
+    topCtx.stroke();
+
+    // Subtraction only gamemode
+    topCtx.fillStyle = "#FF0066";
+    topCtx.font = "bold 48px Courier New";
+    topCtx.textAlign = 'center';
+    topCtx.textBaseline = 'middle';
+    topCtx.fillText("Subtract",200,300);
 
     topCtx.strokeStyle = "#FF0066";
     topCtx.lineWidth = 5;
-    topCtx.rect(100, 250, 200, 100);
+    topCtx.rect(sbr['sub'][0], sbr['sub'][1], sbr['sub'][2], sbr['sub'][3]);
+    topCtx.stroke();
+
+    // Addition and subtraction gamemode
+    topCtx.fillStyle = "#FF0066";
+    topCtx.font = "bold 48px Courier New";
+    topCtx.textAlign = 'center';
+    topCtx.textBaseline = 'middle';
+    topCtx.fillText("Both",200,450);
+
+    topCtx.strokeStyle = "#FF0066";
+    topCtx.lineWidth = 5;
+    topCtx.rect(sbr['addsub'][0], sbr['addsub'][1], sbr['addsub'][2], sbr['addsub'][3]);
     topCtx.stroke();
 }
 
-function clearPlayButton(){
-    topCtx.clearRect(0,0,topCanvas.width,topCanvas.height);
-}
-
-function highlightPlayButton(){
+function highlightButton(item){
+    sbr = splashButtonRectangles;
     midCtx.beginPath();
     midCtx.lineWidth = 1;
     midCtx.fillStyle = "#FFFFCC";
-    midCtx.rect(100, 250, 200, 100);
+    midCtx.rect(sbr[item][0], sbr[item][1], sbr[item][2], sbr[item][3]);
     midCtx.fill();
 }
 
-function unhighlightPlayButton(){
+function clearMidCtx(){
     midCtx.clearRect(0,0,midCanvas.width,midCanvas.height);
+}
+
+function setLaserColor(){
+    if(gamemode == 1){
+        // yellow laser for addition
+        laserColor = "#FFFF00"
+    }else if(gamemode == 2){
+        // green laser for subtraction
+        laserColor = "#00FF00";
+    }else if(gamemode == 3){
+        // fuschia laser for addition+subtraction
+        laserColor = "#FF00FF";
+    }
 }
 
 function startGame() {
@@ -432,14 +480,12 @@ function matheroid(xCoord){
     // background image
     this.div.style.backgroundImage = greyAsteroidSrc;
     this.div.style.backgroundSize = "cover";
-    // append div to main
+
     document.getElementById("main").appendChild(this.div);
-    // position style
     this.div.style.position = "absolute";
-    // position value
     this.div.style.left = Math.floor(((window.innerWidth - topCanvas.width) / 2) + this.x - (this.width / 2)) + "px";
-    // set class
     this.div.setAttribute("class", "asteroid");
+
     // set what to do if the asteroid hits the bottom (finishes its animation)
     this.div.addEventListener("animationend", function(){
         if(playing){
@@ -463,11 +509,7 @@ function matheroid(xCoord){
     this.getAnswer = function(){
         return this.object.answer;
     }
-
-    this.getProblem = function(){
-        return this.object.problem;
-    }
-
+    
     //Updates the color of an equation
     this.updateColor = function(newColor){
         this.div.style.color = newColor;
@@ -594,7 +636,7 @@ function updateGameArea() {
         }
     }
     else{
-        if(mouse.x > 80 && mouse.x < 320 && mouse.y > 350 && mouse.y < 400){
+        if(mouse.x > 80 && x < 320 && y > 350 && y < 400){
             highlightPlayAgainButton();
         }
     }
