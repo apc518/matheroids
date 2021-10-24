@@ -37,176 +37,13 @@ h1{
 	justify-content: center;
 	align-items: center;
 }
-.welcomeBody{
-	background-image: url("assets/welcome_background_1.jpg"); /* source: Kai Pilger, pexels.com Artists website: kaipilger.myportfolio.com */
-	background-size: contain;
-	color: white;
-	font-size: 48px;
-	line-height: 50px;
-}
 
-.loginBody{
-	background-image: url("assets/welcome_background_1.jpg");
-	background-size: cover;
-}
-
-/*Welcome page buttons*/
-
-.studentlogin {
-	display: block;
-	height: 300px;
-	width: 600px;
-	background-color: #512DA8;
-	border: 2px solid #512DA8;
-	color: white;
-	padding: 15px 32px;
-	font-size: 32px;
-	text-align: center;
-	border-radius: 5px;
-	transition-duration: 0.3s;
-}
-.studentlogin:hover {
-	background-color: white;
-	border: 2px solid #512DA8;
-	color: black;
-}
-.teacherlogin {
-	display: block;
-	border: none;
-	background-color: #7E57C2;
-	border: 2px solid #7E57C2;
-	color: white;
-	padding: 15px 32px;
-	font-size: 20px;
-	text-align: center;
-	border-radius: 5px;
-	transition-duration: 0.4s;
-}
-.teacherlogin:hover {
-	background-color: white;
-	border: 2px solid #7E57C2;
-	color: black;
-}
-.createteacher {
-	display: block;
-	border: none;
-	background-color: #7E57C2;
-	border: 2px solid #7E57C2;
-	color: white;
-	padding: 15px 32px;
-	font-size: 20px;
-	text-align: center;
-	border-radius: 5px;
-	transition-duration: 0.4s;
-}
-.createteacher:hover {
-	background-color: white;
-	border: 2px solid #7E57C2;
-	color: black;
-}
-
-/*Begining of Menus Style*/
-#mainMenu{
-	color:#22D2A0;
-	display:block;
-	padding: 15px;	
-	position:absolute;
-	top:120px;
-	border-radius: 5px;
-}
-#accountSettings{
-	color:#FF5555;
-	padding: 15px;
-	display:block;
-	position:absolute;
-	top:120px;
-	visibility: hidden;
-	border-radius: 5px;
-}
-#teacherDashboard{
-	color:#FFD913;
-	padding: 15px;
-	display:block;
-	position: absolute;
-	top:120px;
-	visibility: hidden;
-	border-radius: 5px;
-}
-#leaderboard{
-	color:#c238d1;
-	padding: 15px;
-	display:block;
-	position:absolute;
-	top:120px;
-	visibility: hidden;
-	border-radius: 5px;
-
-}
-#gradebook{
-	color:#3fb7d9;
-	padding: 15px;
-	display:block;
-	position:absolute;
-	top:120px;
-	visibility: hidden;
-	border-radius: 5px;
-
-}
-#gradebookTable{
-	width:100%;
-
-}
-table#gradebookTable tr:nth-child(even) {
- background-color: #f0f0f0;
-}
-
-/*Begining of Leaderboard Style*/
-#leaderboardList{
-	list-style-type: none;
-}
-#leaderboardLevelList{
-	list-style-type: none;
-
-}
-#leaderboardSpot{
-	color:#000000;
-}
-#userLeaderboardSpot{
-	color:#ff0027;
-}
-
-/*Begining of Navigation Bar Style*/
-#navBar{
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	background-color: #333333;
-	border-radius: 10px;
-
-}
-#navBarItem a{
-	display: block;
-	color: white;
-	text-align: center;
-	padding: 14px 16px;
-	text-decoration: none;
-}
-#navBarItem{
-	float: left;
-}
-#navBarItem a:hover{
-  background-color: #212121;
-}
-.active{
-	background-color: #111111;
-}
 
 #stage{
     width: 400px;
     height: 600px;
     position: relative;
-    border: 1px solid #a9a9a9;
+    border: 1px solid #8d8d8d;
     margin: auto;
     background-image: url("assets/earth_v1.jpg");
 }
@@ -219,7 +56,7 @@ canvas {
 #top-layer { z-index: 5; }
 #mid-layer { z-index: 4; }
 body{
-    background-color: #44444B;
+    background-color: #1D1D21;
     margin: 0px;
 }
 form {
