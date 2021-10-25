@@ -64,3 +64,7 @@ form {
     margin: 0 auto;
     display: block;
 }
+
+#userAnswer{
+    width: 6rem;
+}
