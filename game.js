@@ -594,7 +594,8 @@ function updateTop(){
 // runs every tick (15ms)
 function updateGameArea() {
     if(focusCountdown >= 0){
-        if(focusCountdown == 0){
+        if(focusCountdown == 0 && playing){
+            console.log("focusing on input");
             answerForm.userAnswer.focus();
         }
         focusCountdown--;
