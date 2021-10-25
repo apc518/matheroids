@@ -6,10 +6,7 @@ body{
 div {
 	color:#000000;
 }
-h1{
-	color:#000000;
-	font-family:sans-serif;
-}
+
 .asteroid {
 	display: flex;
 	align-items: center;
