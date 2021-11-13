@@ -31,6 +31,8 @@ const midCanvas = document.getElementById("mid-layer");
 const topCtx = topCanvas.getContext("2d");
 const midCtx = midCanvas.getContext("2d");
 
+const answerForm = document.getElementById("answerForm");
+
 drawLoadingScreen();
 
 var gameIsLoaded = false;
@@ -358,7 +360,6 @@ function startGame() {
 
 function resetGame(){
     clearAllMatheroids();
-    playing = true; // true here but not above because the game is already loaded if you're resetting
     score = 0;
 
     spawnIntervalMax = initSpawnMax;
@@ -382,12 +383,20 @@ function resetGame(){
     wrongTotal= 0;
 
     focusCountdown = 1;
+
+    updateScore();
+
+    askingToPlayGameForTheFirstTime = true;
+    playing = false;
+
+    clearMidCtx();
+
+    updateTop();
+
+    drawSplashScreen();
     
     clearInterval(gameInterval);
 
-    startGame();
-
-    updateScore();
 }
 
 //Adds a problem to the array of problems.
@@ -584,7 +593,7 @@ function object(x) {
 
 // update the top canvas, including the cannon and score
 function updateTop(){
-    topCtx.clearRect(0, 0, topCanvas.width, topCanvas.height);
+    clearTopCtx();
     updateScore();
     updateCannon();
     updateSoundControls();
@@ -595,7 +604,6 @@ function updateTop(){
 function updateGameArea() {
     if(focusCountdown >= 0){
         if(focusCountdown == 0 && playing){
-            console.log("focusing on input");
             answerForm.userAnswer.focus();
         }
         focusCountdown--;
@@ -653,18 +661,6 @@ function updateScore(){
         topCtx.textAlign = 'left';
         topCtx.textBaseline = 'top';
         topCtx.fillText(score,10,10);
-    }
-    else{
-        topCtx.beginPath();
-        topCtx.fillStyle = "#FF0000";
-        topCtx.font = "bold 80px Impact";
-        topCtx.textAlign = 'center';
-        topCtx.textBaseline = 'middle';
-        topCtx.fillText("Game Over", 200, 225);
-
-        topCtx.beginPath();
-        topCtx.font = "bold 40px Courier New";
-        topCtx.fillText("Final score: " + score, 200, 300);
     }
 }
 
@@ -735,7 +731,19 @@ function highlightPlayAgainButton(){
     midCtx.fill();
 }
 
-function drawPlayAgainButton(){
+function drawGameOverScreen(){
+    // GAME OVER
+    topCtx.beginPath();
+    topCtx.fillStyle = "#FF0000";
+    topCtx.font = "80px Impact";
+    topCtx.textAlign = 'center';
+    topCtx.textBaseline = 'middle';
+    topCtx.fillText("Game Over", 200, 225);
+
+    topCtx.beginPath();
+    topCtx.font = "bold 40px Courier New";
+    topCtx.fillText("Final score: " + score, 200, 300);
+
     topCtx.beginPath();
     topCtx.lineWidth = 5;
     topCtx.strokeStyle = "#FF0000";
@@ -753,14 +761,14 @@ function youLose(){
     loseSound.play();
     playing = false;
     updateTop();
-    drawPlayAgainButton();
+    drawGameOverScreen();
     
 }
 
 //Checks the users given answer.
 function checkAnswer(){
     if(playing == true){
-        var userAns = document.getElementById("userAnswer").value;
+        var userAns = userAnswer.value;
 
         if(matheroids.length >= 1){
             if(userAns == matheroids[0].getAnswer()){
@@ -923,6 +931,8 @@ function updateCannon(){
 }
 
 function shoot(){
+    if(userAnswer.value === "") return;
+
     if(matheroids.length < 1){
         laserTargetX = 200;
         laserTargetY = 0;
@@ -989,5 +999,5 @@ function shoot(){
         updateTop();
     }
 
-    document.getElementById("userAnswer").value = "";
+    userAnswer.value = "";
 }
