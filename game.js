@@ -70,7 +70,7 @@ var polyphony = 8;
 
 music.addEventListener("canplaythrough", function(){
     gameIsLoaded = true;
-    music.volume = 0.4;
+    music.volume = 0.3;
     music.loop = true;
     askingToPlayGameForTheFirstTime = true;
     clearTopCtx();
